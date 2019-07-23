@@ -3,6 +3,9 @@
 return [
     // Labels
     'outlet'        => 'Outlet',
+    'stop'          => 'Stop',
+    'trip'          => 'Trip',
+    'bus'           => 'Bus',
     'list'          => 'Outlet List',
     'search'        => 'Search Outlet',
     'search_text'   => 'Name ...',

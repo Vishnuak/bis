@@ -22,4 +22,5 @@ Route::group(['as' => 'api.', 'namespace' => 'Api'], function () {
      * Outlets Endpoints
      */
     Route::get('outlets', 'OutletController@index')->name('outlets.index');
+    Route::get('stops/{id}', 'OutletController@stops')->name('outlets.stops');
 });

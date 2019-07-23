@@ -13,6 +13,8 @@
 
 Route::get('/', 'OutletMapController@index');
 
+Route::post('/', 'OutletMapController@index');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -22,3 +24,4 @@ Route::get('/home', 'HomeController@index')->name('home');
  */
 Route::get('/our_outlets', 'OutletMapController@index')->name('outlet_map.index');
 Route::resource('outlets', 'OutletController');
+Route::resource('stops', 'StopController');
