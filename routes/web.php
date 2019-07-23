@@ -24,4 +24,13 @@ Route::get('/home', 'HomeController@index')->name('home');
  */
 Route::get('/our_outlets', 'OutletMapController@index')->name('outlet_map.index');
 Route::resource('outlets', 'OutletController');
+
+/*
+ * Stops Routes
+ */
 Route::resource('stops', 'StopController');
+
+/*
+ * Buses Routes
+ */
+Route::resource('buses', 'BusController');

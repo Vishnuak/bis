@@ -15,7 +15,10 @@ class StopController extends Controller
 
     public function index()
     {
-        $stops = Stop::paginate(10);
+        $stopQuery = Stop::query();
+        $stopQuery->where('name', 'like', '%'.request('q').'%');
+        $stops = $stopQuery->paginate(25);
+        //$stops = Stop::paginate(10);
         return view('stops.list', [
             'stops' => $stops
         ]);
@@ -36,7 +39,7 @@ class StopController extends Controller
         ]);
         $newStop['creator_id'] = auth()->id();
 
-        $outlet = Stop::create($newStop);
+        $stop = Stop::create($newStop);
 
         return redirect('/stops');
     }

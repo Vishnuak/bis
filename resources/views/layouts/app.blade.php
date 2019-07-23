@@ -31,13 +31,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"><a href="https://github.com/nafiesl/laravel-leaflet-example" class="btn btn-outline-primary btn-sm" target="_blank">Source code</a></li>
+                        <li class="nav-item"><a href="https://github.com/vishnuak/bis" class="btn btn-outline-primary btn-sm" target="_blank">Source code</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        <li class="nav-item"><a class="nav-link" href="{{ route('outlet_map.index') }}">{{ __('menu.our_outlets') }}</a></li>
+                        {{--<li class="nav-item"><a class="nav-link" href="{{ route('outlet_map.index') }}">{{ __('menu.stops') }}</a></li>--}}
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -49,7 +49,10 @@
                             </li>
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('outlets.index') }}">{{ __('outlet.list') }}</a>
+                                <a class="nav-link" href="{{ route('stops.index') }}">{{ __('stop.list') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('buses.index') }}">{{ __('bus.list') }}</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

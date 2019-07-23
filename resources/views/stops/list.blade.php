@@ -20,7 +20,7 @@
                         <input placeholder="{{ __('stop.search_text') }}" name="q" type="text" id="q" class="form-control mx-sm-2" value="{{ request('q') }}">
                     </div>
                     <input type="submit" value="{{ __('stop.search') }}" class="btn btn-secondary">
-                    <a href="{{ route('outlets.index') }}" class="btn btn-link">{{ __('app.reset') }}</a>
+                    <a href="{{ route('stops.index') }}" class="btn btn-link">{{ __('app.reset') }}</a>
                 </form>
             </div>
             <table class="table table-sm table-responsive-sm">
