@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bus extends Model
 {
-    //
-     protected $fillable = [
-        'Name', 'Owner', 'Number' , 'Type',
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'owner', 'type', 'number'
     ];
 }
