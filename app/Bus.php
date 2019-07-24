@@ -7,4 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Bus extends Model
 {
     //
+     protected $fillable = [
+        'Name', 'Owner', 'Number' , 'Type',
+    ];
 }
