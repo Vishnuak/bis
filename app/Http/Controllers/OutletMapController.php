@@ -34,12 +34,16 @@ class OutletMapController extends Controller
             })->leftJoin('stops', function($join) {
                   $join->on('trips.start_lat', '=', 'stops.latitude');
                   $join->on('trips.start_long', '=', 'stops.longitude');
-                })->leftJoin('buses as b', 'b.id', '=', 'trips.bus_id')->get(['trips.*', 'b.name', 'b.owner', 'b.number', 'b.type']);
+                })->leftJoin('stops as s', function($join) {
+                  $join->on('trips.end_lat', '=', 's.latitude');
+                  $join->on('trips.end_long', '=', 's.longitude');
+                })->leftJoin('buses as b', 'b.id', '=', 'trips.bus_id')->get(['trips.*', 'b.name', 'b.owner', 'b.number', 'b.type', 'stops.name as origin', 's.name as destination']);
             }
             else {
                 request()->session()->flash('warning', 'From and To cannot be same');
             }
         }
+
         return view('outlets.map', [
             'stops' => $stops,
             'trips' => $trips

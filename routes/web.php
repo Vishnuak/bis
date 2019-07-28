@@ -34,3 +34,8 @@ Route::resource('stops', 'StopController');
  * Buses Routes
  */
 Route::resource('buses', 'BusController');
+
+/*
+ * Trip Routes
+ */
+Route::resource('trips', 'TripController');

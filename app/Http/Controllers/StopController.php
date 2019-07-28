@@ -37,7 +37,7 @@ class StopController extends Controller
             'latitude'  => 'nullable|required_with:longitude|max:15',
             'longitude' => 'nullable|required_with:latitude|max:15',
         ]);
-        $newStop['creator_id'] = auth()->id();
+        //$newStop['creator_id'] = auth()->id();
 
         $stop = Stop::create($newStop);
 

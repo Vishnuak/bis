@@ -50,8 +50,8 @@
                             <td> {{$trip->type}}</td>
                           <td> {{date('h:i:s a', strtotime($trip->start))}}</td>
                           <td>{{date('h:i:s a', strtotime($trip->end))}}</td>
-                          <td>{{$trip->start_lat . ', ' .  $trip->start_long}}</td>
-                          <td>{{$trip->end_lat . ', ' .  $trip->end_long}}</td>
+                          <td>{{$trip->origin}}</td>
+                          <td>{{$trip->destination}}</td>
                           <td><button onclick="listStops({{$trip->id}})">view stops</button></td>
                         </tr>
                     @endforeach
@@ -130,7 +130,7 @@ legend.addTo(map);
         };
 
         var popupContent = "Your location : " + latitude + ", " + longitude + ".";
-        popupContent += '<br><a href="{{ route('outlets.create') }}?latitude=' + latitude + '&longitude=' + longitude + '">Add new outlet here</a>';
+        popupContent += '<br><a href="{{ route('stops.create') }}?latitude=' + latitude + '&longitude=' + longitude + '">Add new stop here</a>';
 
         theMarker = L.marker([latitude, longitude]).addTo(map);
         theMarker.bindPopup(popupContent)
