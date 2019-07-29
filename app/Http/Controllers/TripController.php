@@ -102,7 +102,7 @@ class TripController extends Controller
 
         $trip->stopsdet = json_decode($trip->stops_details);
 
-        $stops = Stop::all();
+        $stops = Stop::orderBy('name')->get();
         $buses = Bus::all();
 
         return view('trips.edit', [
