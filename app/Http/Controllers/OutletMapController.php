@@ -49,4 +49,9 @@ class OutletMapController extends Controller
             'trips' => $trips
         ]);
     }
+
+    public function routing()
+    {
+        return view('layouts.home');
+    }
 }

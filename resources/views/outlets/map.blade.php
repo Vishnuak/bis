@@ -69,6 +69,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
     integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
     crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
 
 <style>
     #mapid { min-height: 500px; }
@@ -79,6 +80,7 @@
 <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
     integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
     crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
 <script>
 
@@ -140,28 +142,63 @@ legend.addTo(map);
 </script>
 
 <script type="text/javascript">
+  route = L.Routing.control({
+                    waypoints: []
+                    }).addTo(map); 
     function listStops(x) {
 
         if(isNumber(x)) {
 
+map.removeControl(route);
             axios.get('/api/stops/'+x)
             .then(function (result) {
                 console.log(result.data);
                 markerGroup.clearLayers();
+                    cor = [];
+                    
+                var a = result.data.features;
                 L.geoJSON(result.data, {
                     pointToLayer: function(geoJsonPoint, latlng) {
+                      /*waypointss = L.Routing.waypoint(geoJsonPoint.geometry.coordinates[0], geoJsonPoint.geometry.coordinates[1]);*/
+
+//console.log(geoJsonPoint.geometry.coordinates[0]);
+
+                    
+
+                      
                         return L.marker(latlng).addTo(markerGroup);
                     }
                 })
                 .bindPopup(function (result) {
-                    console.log(result.feature.properties);
+                    //console.log(result.feature.properties);
+                    //
+                    //waypoints[] = L.latLng(result.feature.geometry.coordinates[0]
                     var mpopup = result.feature.properties;
                     return mpopup;
                 }).addTo(map);
+                a.forEach(function(entry, index) {
+       // console.log(entry.geometry.coordinates[0]);
+        cor[index] = L.latLng(entry.geometry.coordinates[1], entry.geometry.coordinates[0]);
+
+
+});
+            /*for(var j = 1; j < cor.length; j+=2){
+                    L.Routing.control({
+                    waypoints: [L.latLng(cor[j-1].lng, cor[j-1].lat),L.latLng(cor[j+1].lng, cor[j+1].lat)],show: false, createMarker: function() { return null; }}).addTo(map);  
+                    /*console.log(extractedPoints[j-1], extractedPoints[j]),L.latLng(extractedPoints[j+1], extractedPoints[j+2]);*/
+                    /*map.setZoom(14);
+                }*/
+                 route = L.Routing.control({
+                    waypoints: cor
+                    }).addTo(map);  
+                    /*console.log(extractedPoints[j-1], extractedPoints[j]),L.latLng(extractedPoints[j+1], extractedPoints[j+2]);*/
+                    map.setZoom(14);
             })
             .catch(function (error) {
                 console.log(error);
             });
+
+
         }
     }
 

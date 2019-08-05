@@ -13,6 +13,8 @@
 
 Route::get('/', 'OutletMapController@index');
 
+Route::get('/routing', 'OutletMapController@routing');
+
 Route::post('/', 'OutletMapController@index');
 
 Auth::routes();
