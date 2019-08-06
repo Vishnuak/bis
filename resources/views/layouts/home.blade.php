@@ -15,25 +15,29 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    @yield('styles')
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
-<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-<style>
-    #mapid { min-height: 400px; }
-    .green-gradient {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <style>
+        #mapid { min-height: 400px; }
+        .green-gradient {
             background-image: linear-gradient(60deg, rgba(167, 251, 188, 0.78) 37%, #cdf283 100%);
-    }
+        }
 
-    .dusty-green-gradient {
+        .dusty-green-gradient {
             background-image: linear-gradient(120deg, #c9f763 0%, #43ff5d 100%);
-    }
-    .btn-group-sm>.btn, .btn-sm {
+        }
+        .btn-group-sm>.btn, .btn-sm {
             border-radius: 0.9rem;
-    font-size: medium;
-    }
-</style>
+            font-size: medium;
+        }
+        .leaflet-control-container .leaflet-routing-container-hide {
+            display: none;
+        }
+    </style>
+    @yield('styles')
 </head>
 <body>
     <div id="app">
@@ -47,10 +51,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                        {{--<li class="nav-item"><a href="https://github.com/vishnuak/bis" class="btn btn-outline-primary btn-sm" target="_blank">Source code</a></li>--}}
-                    </ul>
+                    
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -98,61 +99,14 @@
             </div>
         </nav>
 
-        <div class="nav-scroller bg-white shadow-sm">
-            <div class="container p-3">
-                <div class="col-xs-12" style="    margin: 0 auto;
-    width: 50%;">
-            <form class="form-inline" >
-
-  <label class="sr-only" for="inlineFormInputName2">Stops</label>
-  <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Stops">
-
-  <label class="sr-only" for="inlineFormInputGroupUsername2">Stops</label>
-  <div class="input-group mb-2 mr-sm-2">
-    <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Stops">
-  </div>
-
-<button type="submit" class="btn btn-outline-success mb-2">Find Bus</button>
-</form></div>
-</div>
-        </div>
-
-        <main class="py-4 container-fluid">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-12 col-md-5">
-                        <div class="card p-2 shadow-sm p-3 mb-5 bg-white rounded">
-                            <div class="card-body text-center">
-                                <h4><span class="float-left"> Origin </span><span class="text-muted h6">To</span><span class="float-right"> Destination</span></h4>
-                                <h5 class="pb-4" style="border-bottom: 1px solid #c7b6b6;"><span class="float-left">Time </span> <span class="float-right"> End time</span></h5>
-                                <button type="button" class="btn btn-outline-success btn-round-sm btn-sm float-right">View Stops</button>
-                                <span class="float-left"> Live stop : <span class="text-success"> NYY</span> </span>
-
-                            </div>
-                        </div>
-                        <div class="card p-2 shadow-sm p-3 mb-5 bg-white rounded">
-                            <div class="card-body text-center">
-                                <h4><span class="float-left"> Origin </span><span class="text-muted h6">To</span><span class="float-right"> Destination</span></h4>
-                                <h5 class="pb-4" style="border-bottom: 1px solid #c7b6b6;"><span class="float-left">Time </span> <span class="float-right"> End time</span></h5>
-                                <button type="button" class="btn btn-outline-success btn-round-sm btn-sm float-right">View Stops</button>
-                                <span class="float-left"> Live stop : <span class="text-success"> NYY</span> </span>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-7 bg-white">
-                     <div class="card-body" id="mapid"></div>
-                    </div>
-                </div>
-            </div>
-         
-        </main>
+        @yield('content')
+        
         @include('layouts.partials.footer')
     </div>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     @stack('scripts')
-    <script type="text/javascript">
+    {{--<script type="text/javascript">
         var map = L.map('mapid').setView([{{ config('leaflet.map_center_latitude') }}, {{ config('leaflet.map_center_longitude') }}], {{ config('leaflet.zoom_level') }});
     var baseUrl = "{{ url('/') }}";
 
@@ -194,6 +148,6 @@ console.log(cor[0]);
 });
 
             
-    </script>
+    </script>--}}
 </body>
 </html>

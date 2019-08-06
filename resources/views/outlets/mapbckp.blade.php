@@ -1,89 +1,68 @@
-@extends('layouts.home')
+@extends('layouts.app')
 
 @section('content')
-  <div class="nav-scroller bg-white shadow-sm">
-    <div class="container p-3">
-        <div class="col-xs-12" style="margin: 0 auto;width: 50%;">
-            <form class="form-inline" action="{{url("/")}}" method="POST">
-              {{ csrf_field() }}
-
-              <label class="sr-only" for="inlineFormInputName2">Stops</label>
-              <select name="from" class="form-control mb-2 mr-sm-2">
-                <option value="" disabled selected>From</option>
-                @foreach($stops as $stop)
-                  <option value="{{$stop->id}}">{{$stop->name}}</option>
-                @endforeach
-              </select>
-
-              <label class="sr-only" for="inlineFormInputGroupUsername2">Stops</label>
-              <div class="input-group mb-2 mr-sm-2">
-                <select name="to" class="form-control">
-                  <option value="" disabled selected>To</option>
-                  @foreach($stops as $stop)
-                    <option value="{{$stop->id}}">{{$stop->name}}</option>
-                  @endforeach
-                </select>
-              </div>
-
-                <input type="submit" value="Find Bus" name="listbus" class="btn btn-outline-success mb-2">
-            </form>
-        </div>
-    </div>
-  </div>
-
-  <main class="py-4 container-fluid">
-    @if ($errors->any() || Session::has('warning'))
-    <div class="card">
-      @if ($errors->any())
-        <div class="alert alert-danger">
-          <ul>
-            @foreach ($errors->all() as $error)
-              <li>{{ $error }}</li>
-            @endforeach
-          </ul>
-        </div>
-      @endif
-      @if(Session::has('warning')) 
-        <div class="alert alert-danger">
-          <ul>
-            <li>{{Session::get('warning')}}</li>
+<div class="card">
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
         </ul>
       </div>
-      @endif
+    @endif
+    @if(Session::has('warning')) 
+      <div class="alert alert-danger">
+        <ul>
+          <li>{{Session::get('warning')}}</li>
+      </ul>
     </div>
     @endif
+    <div class="card-body" id="mapid"></div>
 
-    <div class="container-fluid">
-      <div class="row">
-          <div class="col-sm-12 col-md-5" style="max-height: 500px;overflow-y: scroll;">
-            @isset($trips)
-              <div class="card p-2 shadow-sm p-1 mb-1 bg-white rounded">
-                <h5 class="card-header">Bus between <strong>{{$trips->frominput}}</strong> and<strong> {{$trips->toinput}}</strong></h5>
-              
-                @foreach($trips as $trip)
-                  <div class="card p-2 shadow-sm p-1 mb-1 bg-white rounded">
-                      <div class="card-body text-center">
-                          <h5><span class="float-left"> {{$trip->origin}} </span><span class="text-muted h6">To</span><span class="float-right"> {{$trip->destination}}</span></h5>
-                          <h6 class="pb-4" style="border-bottom: 1px solid #c7b6b6;"><span class="float-left">{{date('h:i:s a', strtotime($trip->start))}} </span> <span class="float-right"> {{date('h:i:s a', strtotime($trip->end))}}</span></h6>
-                          <button type="button" class="btn btn-outline-success btn-round-sm btn-sm float-right" onclick="listStops({{$trip->id}})">View Stops</button>
-                          <span class="float-left"> Live stop : <span class="text-success"> NYY</span> </span>
+</div>
+    @isset($trips)
 
-                      </div>
-                  </div>
-                @endforeach
-              
-              </div>
-            @endisset
-          </div>
-          <div class="col-sm-12 col-md-7 bg-white">
-            <div class="card-body" id="mapid"></div>
-          </div>
-      </div>
+        <div class="container pt-2">
+    <div class="row">
+        <table class="table table-bordered dt-responsive nowrap" id="table"  style="width:100%">
+
+
+            <thead>
+                <tr>
+                  <th scope="col">Bus</th>
+                  <th scope="col">Owned By</th>
+                  <th scope="col">Number</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">From</th>
+                  <th scope="col">To</th>
+                  <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                    @foreach($trips as $trip)
+                        <tr>
+                            <td> {{$trip->name}}</td>
+                            <td> {{$trip->owner}}</td>
+                            <td> {{$trip->number}}</td>
+                            <td> {{$trip->type}}</td>
+                          <td> {{date('h:i:s a', strtotime($trip->start))}}</td>
+                          <td>{{date('h:i:s a', strtotime($trip->end))}}</td>
+                          <td>{{$trip->origin}}</td>
+                          <td>{{$trip->destination}}</td>
+                          <td><button onclick="listStops({{$trip->id}})">view stops</button></td>
+                        </tr>
+                    @endforeach
+
+            </tbody>
+        </table>
     </div>
-   
-  </main>
+</div>
 
-    
+
+    @endisset
 @endsection
 
 @section('styles')
@@ -133,8 +112,8 @@ var markerGroup = L.layerGroup().addTo(map);
 var legend = L.control({position: 'topright'});
 legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend');
-    /*div.innerHTML = '<form action="{{url("/")}}" method="POST">{{ csrf_field() }}<select name="from"><option value="" disabled selected>From</option>@foreach($stops as $stop)<option value="{{$stop->id}}">{{$stop->name}}</option>@endforeach</select><select name="to"><option value="" disabled selected>To</option>@foreach($stops as $stop)<option value="{{$stop->id}}">{{$stop->name}}</option>@endforeach</select><input type="submit" value="submit" name="listbus"></form>';*/
-    //div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation;
+    div.innerHTML = '<form action="{{url("/")}}" method="POST">{{ csrf_field() }}<select name="from"><option value="" disabled selected>From</option>@foreach($stops as $stop)<option value="{{$stop->id}}">{{$stop->name}}</option>@endforeach</select><select name="to"><option value="" disabled selected>To</option>@foreach($stops as $stop)<option value="{{$stop->id}}">{{$stop->name}}</option>@endforeach</select><input type="submit" value="submit" name="listbus"></form>';
+    div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation;
     return div;
 };
 legend.addTo(map);
@@ -163,15 +142,14 @@ legend.addTo(map);
 </script>
 
 <script type="text/javascript">
-var route = null;
-var size = null;
+  route = L.Routing.control({
+                    waypoints: []
+                    }).addTo(map); 
     function listStops(x) {
 
         if(isNumber(x)) {
-/*route = L.Routing.control({
-                    waypoints: []
-                    });
-map.removeControl(route);*/
+
+map.removeControl(route);
             axios.get('/api/stops/'+x)
             .then(function (result) {
                 console.log(result.data);
@@ -210,18 +188,11 @@ map.removeControl(route);*/
                     /*console.log(extractedPoints[j-1], extractedPoints[j]),L.latLng(extractedPoints[j+1], extractedPoints[j+2]);*/
                     /*map.setZoom(14);
                 }*/
-                
-                if (route != null) {
-                  //alert(size);
-                  route.spliceWaypoints(0, size);
-                }
                  route = L.Routing.control({
-                    waypoints: cor,
-                    show: false, createMarker: function() { return null; }
+                    waypoints: cor
                     }).addTo(map);  
                     /*console.log(extractedPoints[j-1], extractedPoints[j]),L.latLng(extractedPoints[j+1], extractedPoints[j+2]);*/
-                    map.setZoom(12);
-                   size = cor.length;
+                    map.setZoom(14);
             })
             .catch(function (error) {
                 console.log(error);

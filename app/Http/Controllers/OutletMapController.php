@@ -38,6 +38,14 @@ class OutletMapController extends Controller
                   $join->on('trips.end_lat', '=', 's.latitude');
                   $join->on('trips.end_long', '=', 's.longitude');
                 })->leftJoin('buses as b', 'b.id', '=', 'trips.bus_id')->get(['trips.*', 'b.name', 'b.owner', 'b.number', 'b.type', 'stops.name as origin', 's.name as destination']);
+                foreach ($stops as $key => $stop) {
+                  if(($stop->id == request()->from)) {
+                    $trips->frominput = $stop->name;
+                  }
+                  if(($stop->id == request()->to)) {
+                    $trips->toinput = $stop->name;
+                  }
+                }
             }
             else {
                 request()->session()->flash('warning', 'From and To cannot be same');
