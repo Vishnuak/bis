@@ -8,19 +8,19 @@
               {{ csrf_field() }}
 
               <label class="sr-only" for="inlineFormInputName2">Stops</label>
-              <select name="from" class="form-control mb-2 mr-sm-2">
+              <select id="from" name="from" class="form-control mb-2 mr-sm-2" onchange="hideTo(this.value)">
                 <option value="" disabled selected>From</option>
                 @foreach($stops as $stop)
-                  <option value="{{$stop->id}}">{{$stop->name}}</option>
+                  <option value="{{$stop->id}}" class="{{$stop->id}}">{{$stop->name}}</option>
                 @endforeach
               </select>
 
               <label class="sr-only" for="inlineFormInputGroupUsername2">Stops</label>
-              <div class="input-group mb-2 mr-sm-2">
-                <select name="to" class="form-control">
+              <div class="input-group mb-2 mr-sm-2" onchange="hideFrom(this.value)">
+                <select id="to" name="to" class="form-control">
                   <option value="" disabled selected>To</option>
                   @foreach($stops as $stop)
-                    <option value="{{$stop->id}}">{{$stop->name}}</option>
+                    <option value="{{$stop->id}}" class="{{$stop->id}}">{{$stop->name}}</option>
                   @endforeach
                 </select>
               </div>
@@ -58,7 +58,7 @@
           <div class="col-sm-12 col-md-5" style="max-height: 500px;overflow-y: scroll;">
             @isset($trips)
               <div class="card p-2 shadow-sm p-1 mb-1 bg-white rounded">
-                <h5 class="card-header">Bus between <strong>{{$trips->frominput}}</strong> and<strong> {{$trips->toinput}}</strong></h5>
+                @if(count($trips) > 0)<h5 class="card-header">Buses between <strong>{{$trips->frominput}}</strong> and<strong> {{$trips->toinput}}</strong></h5>@else<h5 class="card-header">No buses running between <strong>{{$trips->frominput}}</strong> and<strong> {{$trips->toinput}}</strong></h5>@endif
               
                 @foreach($trips as $trip)
                   <div class="card p-2 shadow-sm p-1 mb-1 bg-white rounded">
@@ -66,7 +66,8 @@
                           <h5><span class="float-left"> {{$trip->origin}} </span><span class="text-muted h6">To</span><span class="float-right"> {{$trip->destination}}</span></h5>
                           <h6 class="pb-4" style="border-bottom: 1px solid #c7b6b6;"><span class="float-left">{{date('h:i:s a', strtotime($trip->start))}} </span> <span class="float-right"> {{date('h:i:s a', strtotime($trip->end))}}</span></h6>
                           <button type="button" class="btn btn-outline-success btn-round-sm btn-sm float-right" onclick="listStops({{$trip->id}})">View Stops</button>
-                          <span class="float-left"> Live stop : <span class="text-success"> NYY</span> </span>
+                          <!--only applicable to time based query (listing live buses)-->
+                          {{--<span class="float-left"> Live stop : <span class="text-success"> NYY</span> </span>--}}
 
                       </div>
                   </div>
@@ -236,55 +237,34 @@ map.removeControl(route);*/
       return !isNaN(parseFloat(n)) && isFinite(n);
     }
 </script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
 
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-
-    <script type="text/javascript">
-        
-        $(document).ready(function() {
-            var table = $('#table').DataTable( {
-                fixedHeader: true
-            } );
-        } );
-    </script>
-
-<script src="https://unpkg.com/leaflet-ant-path" type="text/javascript"></script>
-    <script type="text/javascript">
-
-        /*var pointA = new L.LatLng(28.635308, 77.22496);
-var pointB = new L.LatLng(28.984461, 77.70641);
-var pointList = [pointA, pointB];
-
-var firstpolyline = new L.Polyline(pointList, {
-    color: 'red',
-    weight: 3,
-    opacity: 0.5,
-    smoothFactor: 1
-});
-firstpolyline.addTo(map);
- //This is a example, the JSON can come from any place
-
-const path = new L.Polyline.AntPath([
-  [8.3943892454993, 77.104067802429],
-  [8.4027131026976, 77.086064815521]], {
-  "delay": 400,
-  "dashArray": [
-    10,
-    20
-  ],
-  "weight": 5,
-  "color": "#0000FF",
-  "pulseColor": "#FFFFFF",
-  "paused": false,
-  "reverse": false,
-  "hardwareAccelerated": true
-});
+  <script type="text/javascript">
+    function hideFrom(y) 
+    {
+      $("#from option").show();
+      $("#from option[value=" + y + "]").hide();
+      /*$("."+y).css("display","block");*/
+      var dropDown = document.getElementById("from");
+      if (dropDown.selectedIndex == y) {
+        dropDown.selectedIndex = 0;
+      }
+      
+    }
+  </script>
+  <script type="text/javascript">
+    function hideTo(y) 
+    {
+      $("#to option").show();
+      $("#to option[value=" + y + "]").hide();
+      /*$("."+y).css("display","block");*/
+      var dropDown = document.getElementById("to");
+      if (dropDown.selectedIndex == y) {
+        dropDown.selectedIndex = 0;
+      }
+      
+    }
+  </script>
 
 
-map.addLayer(path);
-map.fitBounds(path.getBounds());*/
-    </script>
+
 @endpush
