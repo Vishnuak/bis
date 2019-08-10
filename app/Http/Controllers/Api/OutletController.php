@@ -23,34 +23,32 @@ class OutletController extends Controller
     {
         $from = date('H:i:s');
         //$stops = Trip::whereBetween('start', ['00:00:000', $from])->orWhereBetween('start', [$from, '23:59:59'])->get(); 
-        $outlets = Trip::whereTime('start', '<=', $from)
-                    ->WhereTime('end', '>=', $from)->get(); 
-                    //dd($outlets);
-        //dd($outlets);
-        //$to = date('Y-m-d');
-        //$outlets = Outlet::all();
+        $outlets = Trip::leftJoin('stops', function($join) {
+                      $join->on('trips.start_lat', '=', 'stops.latitude');
+                      $join->on('trips.start_long', '=', 'stops.longitude');
+                    })->leftJoin('stops as s', function($join) {
+                      $join->on('trips.end_lat', '=', 's.latitude');
+                      $join->on('trips.end_long', '=', 's.longitude');
+                    })->whereTime('start', '<=', $from)
+                    ->WhereTime('end', '>=', $from)->get(['trips.*', 'stops.name as origin', 's.name as destination']); 
+
         $collection = new Collection();
-        //$collection = array();
         $final = new stdClass();
 
         foreach ($outlets as $key => $value) {
-            //dd($value->stops_details);
+
             $stops = json_decode($value->stops_details);
-            //  var_dump($stops); exit();
+
             foreach ($stops as $keyy => $val) {
-                //dd($keyy);
-                //
+
                 if(strtotime($keyy) >= strtotime($from)) {
-                   /* $final = [
-                        'latitude' => $val[0],
-                        'longitude' => $val[1]];*/
+
                     $final->latitude = $val[0];
                     $final->longitude = $val[1];
                     $value->time = date('h:i:s a', strtotime($keyy));
                     $value->name = Stop::where('latitude', $val[0])->where('longitude', $val[1])->first();
-                    //dd($value->name);
+
                     $final->features = new OutletResource($value);
-                    //var_dump($final);
                     $collection[$key] = $final;
                     $collection->push($final);
                     $final = new stdClass();
@@ -58,7 +56,7 @@ class OutletController extends Controller
                 }
             }
         }
-        //dd($collection); 
+
         $geoJSONdata = $collection->map(function ($stop) {
             return [
                 'type'       => 'Feature',

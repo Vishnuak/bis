@@ -16,8 +16,8 @@
               </select>
 
               <label class="sr-only" for="inlineFormInputGroupUsername2">Stops</label>
-              <div class="input-group mb-2 mr-sm-2" onchange="hideFrom(this.value)">
-                <select id="to" name="to" class="form-control">
+              <div class="input-group mb-2 mr-sm-2">
+                <select id="to" name="to" class="form-control"  onchange="hideFrom(this.value)">
                   <option value="" disabled selected>To</option>
                   @foreach($stops as $stop)
                     <option value="{{$stop->id}}" class="{{$stop->id}}">{{$stop->name}}</option>
@@ -124,7 +124,7 @@ var markerGroup = L.layerGroup().addTo(map);
         })
         .bindPopup(function (layer) {
             console.log(layer.feature.properties);
-            var mpopup = '<div class="my-2"><strong>'+layer.feature.properties.name.name+':</strong><br>'+layer.feature.properties.time+'</div>'
+            var mpopup = '<div class="my-2"><strong><u>'+layer.feature.properties.origin+' To '+layer.feature.properties.destination+'</u> </strong><br><strong>'+layer.feature.properties.name.name+':</strong><br>'+layer.feature.properties.time+'</div>'
             return mpopup;
         }).addTo(map);
     })
