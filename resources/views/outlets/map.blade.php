@@ -109,10 +109,14 @@
     var map = L.map('mapid').setView([{{ config('leaflet.map_center_latitude') }}, {{ config('leaflet.map_center_longitude') }}], {{ config('leaflet.zoom_level') }});
     var baseUrl = "{{ url('/') }}";
 
-    L.tileLayer('http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-            maxZoom: 28
-        }).addTo(map);
+    
+
+var googleTraffic = L.tileLayer('https://{s}.google.com/vt/lyrs=m@221097413,traffic&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        minZoom: 2,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+    }).addTo(map);;
+    
 var markerGroup = L.layerGroup().addTo(map);
     axios.get('{{ route('api.outlets.index') }}')
     .then(function (response) {

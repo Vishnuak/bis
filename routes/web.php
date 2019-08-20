@@ -41,3 +41,5 @@ Route::resource('buses', 'BusController');
  * Trip Routes
  */
 Route::resource('trips', 'TripController');
+
+Route::get('/about', 'PageController@index');

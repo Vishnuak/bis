@@ -18,6 +18,7 @@ class StopController extends Controller
         $stopQuery = Stop::query();
         $stopQuery->where('name', 'like', '%'.request('q').'%');
         $stops = $stopQuery->paginate(25);
+        
         //$stops = Stop::paginate(10);
         return view('stops.list', [
             'stops' => $stops
@@ -52,6 +53,7 @@ class StopController extends Controller
     public function edit($stop)
     {
         $stop = Stop::find($stop);
+
 
         return view('stops.edit', [
             'stop' => $stop

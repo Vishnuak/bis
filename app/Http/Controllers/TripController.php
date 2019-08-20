@@ -36,7 +36,7 @@ class TripController extends Controller
 
     public function create()
     {
-    	$stops = Stop::all();
+    	$stops = Stop::orderBy('name')->get();
     	$buses = Bus::all();
         return view('trips.create', [
         	'stops' => $stops ,

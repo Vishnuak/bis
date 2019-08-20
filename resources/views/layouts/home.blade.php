@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'BIS') }}</title>
+    <title>{{ config('app.name', 'NEYYARTC') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -21,7 +21,7 @@
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
     <style>
-        #mapid { min-height: 400px; }
+        #mapid { min-height: 800px; }
         .green-gradient {
             background-image: linear-gradient(60deg, rgba(167, 251, 188, 0.78) 37%, #cdf283 100%);
         }
@@ -44,7 +44,7 @@
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel" style="    background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'BIS') }}
+                    {{ config('app.name', 'NEYYARTC') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
