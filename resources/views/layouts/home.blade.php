@@ -41,7 +41,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel" style="    background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);">
+        <nav class="navbar navbar-expand-md navbar-light navbar-laravel" style="    background-image: linear-gradient(120deg, #6495ed 25%, #96e6a1 50%);">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'NEYYARTC') }}

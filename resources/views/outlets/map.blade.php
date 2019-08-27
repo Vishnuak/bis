@@ -117,13 +117,29 @@ var googleTraffic = L.tileLayer('https://{s}.google.com/vt/lyrs=m@221097413,traf
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
     }).addTo(map);;
     
+
+
+
+
+
 var markerGroup = L.layerGroup().addTo(map);
+var busIcon = L.icon({
+      iconUrl: 'https://www.pngix.com/pngfile/big/42-421613_adonwheels-ksrtc-bus-panel-advertising-all-over-kerala.png',
+      iconSize: [70,40],
+      popupAnchor: [10, 0],
+    shadowSize: [0, 0],
+    //className: 'animated-icon my-icon-id' 
+    });
+
+
+
+
     axios.get('{{ route('api.outlets.index') }}')
     .then(function (response) {
         console.log(response.data);
         L.geoJSON(response.data, {
             pointToLayer: function(geoJsonPoint, latlng) {
-                return L.marker(latlng).addTo(markerGroup);
+                return L.marker(latlng,{icon: busIcon}).addTo(markerGroup);
             }
         })
         .bindPopup(function (layer) {
@@ -135,6 +151,7 @@ var markerGroup = L.layerGroup().addTo(map);
     .catch(function (error) {
         console.log(error);
     });
+
 var legend = L.control({position: 'topright'});
 legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend');
