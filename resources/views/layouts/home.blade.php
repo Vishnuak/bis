@@ -9,6 +9,8 @@
 
     <title>{{ config('app.name', 'NEYYARTC') }}</title>
 
+    <link href="https://getbootstrap.com/docs/4.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
@@ -41,9 +43,9 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel" style="    background-image: linear-gradient(120deg, #6495ed 25%, #96e6a1 50%);">
+        <nav class="navbar navbar-expand-md navbar-light navbar-laravel" style="    background-image: linear-gradient(120deg, rgb(140, 224, 104) 25%, rgb(150, 230, 161) 50%);">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/') }}" style="color: white;font-size: x-large;">
                     {{ config('app.name', 'NEYYARTC') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -58,14 +60,14 @@
                         <!-- Authentication Links -->
                         {{--<li class="nav-item"><a class="nav-link" href="{{ route('outlet_map.index') }}">{{ __('menu.stops') }}</a></li>--}}
                         @guest
-                            <li class="nav-item">
+                           <!-- <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             <li class="nav-item">
                                 @if (Route::has('register'))
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 @endif
-                            </li>
+                            </li>-->
                         @else
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('stops.index') }}">{{ __('stop.list') }}</a>

@@ -23,4 +23,6 @@ Route::group(['as' => 'api.', 'namespace' => 'Api'], function () {
      */
     Route::get('outlets', 'OutletController@index')->name('outlets.index');
     Route::get('stops/{id}', 'OutletController@stops')->name('outlets.stops');
+    Route::get('stopslatlng/{id}', 'OutletController@stopslatlng')->name('outlets.stopslatlng');
+    Route::post('updatelocation', 'OutletController@updateLocation')->name('outlets.updateLocation');
 });
