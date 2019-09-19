@@ -98,12 +98,18 @@ class OutletController extends Controller
             
             $trip->time = date('h:i:s a', strtotime($key));
             $trip->name = Stop::where('latitude', $val[0])->where('longitude', $val[1])->first()->name;
-            if ($live_data->latitude == $final->latitude && $live_data->longitude == $final->longitude) {
-                $final->last_updated =  '<tr><td>Arrived at '.$trip->name.' at '.date('h:i a', strtotime($live_data->time)).'</td></tr>';
+            if(isset($live_data->latitude) && (null !== $live_data->latitude)){
+                if ($live_data->latitude == $final->latitude && $live_data->longitude == $final->longitude) {
+                    $final->last_updated =  '<tr><td>Arrived at '.$trip->name.' at '.date('h:i a', strtotime($live_data->time)).'</td></tr>';
+                }
+                else {
+                    $final->last_updated = '';
+                }
             }
             else {
-                $final->last_updated = '';
-            }
+                    $final->last_updated = '';
+                }
+            
             $final->features = '<div><strong>'.$trip->name.':</strong><br>'.$trip->time.'</div>';
             $final->details = '<tr><td>'.$trip->name.'</td><td>'.$trip->time.'</td></tr>';
             $collection[$i] = $final;
