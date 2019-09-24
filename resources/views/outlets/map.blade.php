@@ -6,9 +6,8 @@
         <div class="col-xs-12" style="margin: 0 auto;width: 50%;">
             <form class="form-inline" action="{{url("/")}}" method="POST">
               {{ csrf_field() }}
-
               <label class="sr-only" for="inlineFormInputName2">Stops</label>
-              <select id="from" name="from" class="form-control mb-2 mr-sm-2" onchange="hideTo(this.value)">
+              <select id="from" name="from" class="combobox form-control  " onchange="hideTo(this.value)">
                 <option value="" disabled selected>From</option>
                 @foreach($stops as $stop)
                   <option value="{{$stop->id}}" class="{{$stop->id}}">{{$stop->name}}</option>
@@ -16,8 +15,8 @@
               </select>
 
               <label class="sr-only" for="inlineFormInputGroupUsername2">Stops</label>
-              <div class="input-group mb-2 mr-sm-2">
-                <select id="to" name="to" class="form-control"  onchange="hideFrom(this.value)">
+              <div class="input-group  mr-sm-2">
+                <select id="to" name="to" class="form-control combobox ml-sm-2"  onchange="hideFrom(this.value)">
                   <option value="" disabled selected>To</option>
                   @foreach($stops as $stop)
                     <option value="{{$stop->id}}" class="{{$stop->id}}">{{$stop->name}}</option>
@@ -25,7 +24,7 @@
                 </select>
               </div>
 
-                <input type="submit" value="Find Bus" name="listbus" class="btn btn-outline-success mb-2">
+                <input type="submit" value="Find Bus" name="listbus" class="btn btn-outline-success ">
             </form>
         </div>
     </div>
@@ -286,6 +285,11 @@ map.removeControl(route);*/
     }
   </script>
 
-
+<script src="/js/bootstrap-combobox.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.combobox').combobox();
+  });
+</script>
 
 @endpush

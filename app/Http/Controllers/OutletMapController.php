@@ -16,7 +16,7 @@ class OutletMapController extends Controller
      */
     public function index(Request $request)
     {
-        $stops = Stop::all();
+        $stops = Stop::orderBy('name')->get();
         $trips = null;
         if(isset($request->listbus)) {
             request()->validate([
@@ -37,7 +37,7 @@ class OutletMapController extends Controller
                 })->leftJoin('stops as s', function($join) {
                   $join->on('trips.end_lat', '=', 's.latitude');
                   $join->on('trips.end_long', '=', 's.longitude');
-                })->leftJoin('buses as b', 'b.id', '=', 'trips.bus_id')->get(['trips.*', 'b.name', 'b.owner', 'b.number', 'b.type', 'stops.name as origin', 's.name as destination']);
+                })->leftJoin('buses as b', 'b.id', '=', 'trips.bus_id')->orderBy('trips.start')->get(['trips.*', 'b.name', 'b.owner', 'b.number', 'b.type', 'stops.name as origin', 's.name as destination']);
                 foreach ($stops as $key => $stop) {
                   if(($stop->id == request()->from)) {
                     $trips->frominput = $stop->name;
